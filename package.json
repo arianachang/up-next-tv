@@ -1,0 +1,19 @@
+{
+  "name": "up-next-tv",
+  "version": "1.0.0",
+  "description": "upcoming tv shows app",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arianachang/up-next-tv.git"
+  },
+  "author": "Ariana Chang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arianachang/up-next-tv/issues"
+  },
+  "homepage": "https://github.com/arianachang/up-next-tv#readme"
+}
