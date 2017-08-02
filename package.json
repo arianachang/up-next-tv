@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/arianachang/up-next-tv/issues"
   },
-  "homepage": "https://github.com/arianachang/up-next-tv#readme"
+  "homepage": "https://github.com/arianachang/up-next-tv#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "express": "^4.15.3",
+    "express-session": "^1.15.4",
+    "hbs": "^4.0.1",
+    "mongoose": "^4.11.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
 }

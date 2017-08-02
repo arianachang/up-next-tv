@@ -1,0 +1,31 @@
+<script src="/javascripts/themoviedb.js"></script>
+<script>
+		var showsArr = [];
+		var string = [];
+		var str = '';
+		theMovieDb.tv.getOnTheAir({page:1}, (shows) => {
+			var tvshows = JSON.parse(shows);
+			showsArr = tvshows.results;
+			showsArr.forEach((show) => {
+				var id = show.id;
+				theMovieDb.tv.getById({id}, (data) => {
+					var s = JSON.parse(data);
+					var curSeason = s.seasons[s.seasons.length-1].season_number;
+					var curEp = s.seasons[s.seasons.length-1].episode_count;
+					var network = s.networks[s.networks.length-1].name;
+					var airDate = s.seasons[s.seasons.length-1].air_date;
+					console.log(s.seasons[s.seasons.length-1]);
+					var epData = '<strong>' + s.name + '</strong> ' + curSeason + 'x' + curEp + ' airs on ' + airDate;
+					str += epData;
+					var newDiv = document.createElement('div');
+					newDiv.innerHTML = epData;
+					document.body.appendChild(newDiv);
+				}, (error) => {console.log(error)});
+			});
+		}, (error) => {console.log(error)});
+</script>
+hello world
+<div>
+	<ul id="tvshows">
+	</ul>
+</div>

@@ -135,14 +135,15 @@ const User = mongoose.model("User");
 
 //route handlers
 app.get('/', function(req, res) {
-	/* if(!req.user) {
+	if(!req.user) {
 		//if user not signed in, go to home page
-		res.render('signin', {error: req.flash('error')});
+		//res.render('signin', {error: req.flash('error')});
+		res.redirect('/today');
 	}
 	else {
-		res.render('homepage', {user:req.user});
-	} */
-	res.render('homepage');
+		//res.render('homepage', {user:req.user});
+		res.redirect('/mytvshows');
+	} 
 });
 
 app.get('/login', (req, res) => {
@@ -171,11 +172,15 @@ app.post('/signup', passport.authenticate('signup', {
 app.get('/mytvshows', (req, res) => {
 	if(!req.user) {
 		//go to login form
-		res.redirect('/');
+		res.redirect('/login');
 	}
 	else {
-		res.render('userlist', {user:req.user});
+		res.render('mytvshows', {user:req.user});
 	}
+});
+
+app.get('/today', (req, res) => {
+	res.render('today');
 });
 
 app.get('/logout', (req, res) => {
