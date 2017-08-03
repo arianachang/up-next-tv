@@ -183,6 +183,10 @@ app.get('/today', (req, res) => {
 	res.render('today');
 });
 
+app.get('/onair', (req, res) => {
+	res.render('onair');
+})
+
 app.get('/logout', (req, res) => {
 	//logs out the current user
 	req.logout();

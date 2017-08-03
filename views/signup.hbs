@@ -1,12 +1,20 @@
-<div id="login">
-<h1>Create an Account</h1>
-{{#if error}} <p id="error">Error: {{error}}</p> {{/if}}
-<form method="POST" action="">
-	<p class="message">Pick a username:</p>
-	<input type="text" name="username" placeholder="username">
-	<p class="message">Choose a password (must be more than 7 characters):</p>
-	<input type="password" name="password" placeholder="password">
-	<br><input type="submit" value="Register">
-</form>
-<p class="message">Already have an account? <a href="/">Sign in!</a></p>
+<div class="center">
+<div id="signup">
+	<h1>Create an Account</h1>
+	{{#if error}} <p id="error" class="bg-danger">Error: {{error}}</p> {{/if}}
+	<form method="POST" action="" id="signupForm">
+		<div class="form-group">
+			<label for="username">Pick a username:</label>
+			<input class="form-control" type="text" name="username" placeholder="username">
+		</div>
+		<div class="form-group">
+			<label for="password">Choose a password:</label>
+			<input class="form-control" type="password" name="password" placeholder="password">
+			<small id="pwInfo" class="form-text text-muted">Password must be greater than 7 characters.</small>
+		</div>
+		<input type="submit" class="btn btn-primary btn-block" value="Log In">
+	</form>
+	<br>
+	<div class="alert alert-info">Already have an account? <a href="/login" class="alert-link">Sign in!</a></div>
+</div>
 </div>

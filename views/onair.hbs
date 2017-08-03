@@ -13,7 +13,7 @@
 	if(mm<10) { mm = '0'+mm; }
 	today = yyyy + '-' + mm + '-' + dd;
 
-	theMovieDb.tv.getAiringToday({page:1}, (shows) => {
+	theMovieDb.tv.getOnTheAir({page:1}, (shows) => {
 		var tvshows = JSON.parse(shows);
 		showsArr = tvshows.results;
 		showsArr.forEach((show) => {
@@ -34,10 +34,15 @@
 							}
 						}
 					}
-					var epData = '<strong>' + s.name + '</strong> ' + curSeason + 'x' + nextEp["episode_number"] + ' airs today';
+					var epData = '<strong>' + s.name + '</strong> ' + curSeason + 'x' + nextEp["episode_number"] + ' airs on ' + nextEp["air_date"];
 					var newDiv = document.createElement('div');
+					newDiv.id = s.name;
 					newDiv.innerHTML = epData;
 					document.querySelector('#body').appendChild(newDiv);
+					var img = new Image();
+					img.onload = () => { newDiv.appendChild(img); }
+					img.src = 'https://image.tmdb.org/t/p/w185/' + s.poster_path;
+					img.className = 'img-responsive';
 				}, (error) => {console.log(error)});
 			}, (error) => {console.log(error)});
 		});
@@ -45,5 +50,5 @@
 </script>
 
 <div>
-<h1>Today</h1>
+<h1>On Air</h1>
 </div>
