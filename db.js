@@ -12,7 +12,7 @@ const Show = new mongoose.Schema({
 //define user schema
 const User = new mongoose.Schema({
 	username: {type: String, required: true, unique: true},
-	password: {type: String},
+	password: {type: String, required: true},
 	shows: [Show]
 });
 

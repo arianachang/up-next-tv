@@ -1,20 +1,19 @@
-<div class="center">
-<div id="signup">
+<div class="center" id="signup">
 	<h1>Create an Account</h1>
-	{{#if error}} <p id="error" class="bg-danger">Error: {{error}}</p> {{/if}}
+	{{#if error}} <div id="error" class="alert bg-danger">Error: {{error}}</div> {{/if}}
 	<form method="POST" action="" id="signupForm">
 		<div class="form-group">
-			<label for="username">Pick a username:</label>
-			<input class="form-control" type="text" name="username" placeholder="username">
+			<label for="username">Enter desired username:</label>
+			<input class="form-control" type="text" name="username" placeholder="username"/>
 		</div>
 		<div class="form-group">
 			<label for="password">Choose a password:</label>
-			<input class="form-control" type="password" name="password" placeholder="password">
+			<input class="form-control" type="password" name="password" placeholder="password"/>
 			<small id="pwInfo" class="form-text text-muted">Password must be greater than 7 characters.</small>
 		</div>
-		<input type="submit" class="btn btn-primary btn-block" value="Log In">
+		<input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+		<input type="submit" class="btn btn-primary btn-block" value="Create Account"/>
 	</form>
 	<br>
 	<div class="alert alert-info">Already have an account? <a href="/login" class="alert-link">Sign in!</a></div>
-</div>
 </div>

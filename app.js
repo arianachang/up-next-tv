@@ -22,9 +22,14 @@ const session = require('express-session');
 const sessionOptions = {
 	secret: require('crypto').randomBytes(64).toString('hex'),
 	resave: false,
-	saveUninitialized: true
+	saveUninitialized: false
 };
 app.use(session(sessionOptions));
+
+//csrf setup
+const csrf = require('csurf');
+const csrfProtection = csrf();
+app.use(csrfProtection);
 
 //bcrypt setup
 const bcrypt = require('bcrypt');
@@ -52,9 +57,9 @@ passport.use(new LocalStrategy(
 			return done(null, false, {'message':'Incorrect password.'});
 		}
 		return done(null, user);
-	}); //end bcrypt compare
-    });
-  }
+		}); //end bcrypt compare
+	});
+	}
 ));
 passport.use('signup', new LocalStrategy({
     passReqToCallback : true
@@ -147,20 +152,20 @@ app.get('/', function(req, res) {
 });
 
 app.get('/login', (req, res) => {
-	res.render('signin', {error: req.flash('error')});
+	res.render('signin', {error: req.flash('error'), csrfToken: req.csrfToken()});
 });
 
-app.post('/login', (req, res) => {
+app.post('/login',
 	passport.authenticate('local', {
 		successRedirect: '/mytvshows',
-		failureRedirect: '/',
+		failureRedirect: '/login',
 		failureFlash: true
-	});
-});
+	})
+);
 
 app.get('/signup', (req, res) => {
 	//create an account page
-	res.render('signup', {error: req.flash('error')});
+	res.render('signup', {error: req.flash('error'), csrfToken: req.csrfToken()});
 });
 
 app.post('/signup', passport.authenticate('signup', {
@@ -175,7 +180,7 @@ app.get('/mytvshows', (req, res) => {
 		res.redirect('/login');
 	}
 	else {
-		res.render('mytvshows', {user:req.user});
+		res.render('user-home', {user:req.user});
 	}
 });
 
