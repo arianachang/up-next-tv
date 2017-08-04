@@ -1,0 +1,10 @@
+<h1>My Profile</h1>
+
+<h2>Edit Shows</h2>
+<form>
+<ul>
+	{{#each shows as |show|}}
+		<li>{{show.name}} <input type="checkbox" name="show"/> Delete Show? </li>
+	{{/each}}
+</ul>
+</form>

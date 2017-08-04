@@ -1,1 +1,17 @@
-<h1>My Shows</h1>
+<script type="text/javascript">
+	const today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1;
+	var yyyy = today.getFullYear();
+	if(dd<10) { dd = '0'+dd; }
+	if(mm<10) { mm = '0'+mm; }
+	today = yyyy + '-' + mm + '-' + dd;
+
+
+</script>
+
+
+<h1>My Upcoming Shows</h1>
+<div id="today" class="row"><h3>Shows Airing Today</h3></div>
+<div id="nextWeek" class="row"><h3>This Week</h3></div>
+<div id="upcoming" class="row"><h3>All Upcoming Shows</h3></div>

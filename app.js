@@ -138,65 +138,17 @@ const ObjectId = require('mongoose').Schema.ObjectId;
 //retrieve constructor models
 const User = mongoose.model("User");
 
-//route handlers
-app.get('/', function(req, res) {
-	if(!req.user) {
-		//if user not signed in, go to home page
-		//res.render('signin', {error: req.flash('error')});
-		res.redirect('/today');
-	}
-	else {
-		//res.render('homepage', {user:req.user});
-		res.redirect('/mytvshows');
-	} 
+//display user nav menu depending on if a user logged in
+app.use(function(req, res, next) {
+	res.locals.login = req.isAuthenticated();
+	next();
 });
 
-app.get('/login', (req, res) => {
-	res.render('signin', {error: req.flash('error'), csrfToken: req.csrfToken()});
-});
+var index = require('./routes/index');
+app.use('/', index);
 
-app.post('/login',
-	passport.authenticate('local', {
-		successRedirect: '/mytvshows',
-		failureRedirect: '/login',
-		failureFlash: true
-	})
-);
-
-app.get('/signup', (req, res) => {
-	//create an account page
-	res.render('signup', {error: req.flash('error'), csrfToken: req.csrfToken()});
-});
-
-app.post('/signup', passport.authenticate('signup', {
-	successRedirect: '/mytvshows',
-	failureRedirect: '/signup',
-	failureFlash : true })
-);
-
-app.get('/mytvshows', (req, res) => {
-	if(!req.user) {
-		//go to login form
-		res.redirect('/login');
-	}
-	else {
-		res.render('user-home', {user:req.user});
-	}
-});
-
-app.get('/today', (req, res) => {
-	res.render('today');
-});
-
-app.get('/onair', (req, res) => {
-	res.render('onair');
-})
-
-app.get('/logout', (req, res) => {
-	//logs out the current user
-	req.logout();
-	res.redirect('/');
-});
+var userRoutes = require('./routes/user');
+app.use('/user', userRoutes);
 
 app.get('*', (req, res) => {
 	//handles 404 page not found
