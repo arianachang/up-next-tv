@@ -1,6 +1,6 @@
 <div class="center" id="signup">
 	<h1>Create an Account</h1>
-	{{#if error}} <div id="error" class="alert bg-danger">Error: {{error}}</div> {{/if}}
+	{{#if error}} <div id="error" class="alert bg-danger"><strong>Error:</strong> {{error}}</div> {{/if}}
 	<form method="POST" action="" id="signupForm">
 		<div class="form-group">
 			<label for="username">Enter desired username:</label>
@@ -15,5 +15,5 @@
 		<input type="submit" class="btn btn-primary btn-block" value="Create Account"/>
 	</form>
 	<br>
-	<div class="alert alert-info">Already have an account? <a href="/login" class="alert-link">Sign in!</a></div>
+	<div class="alert alert-info">Already have an account? <a href="/user/login" class="alert-link">Sign in!</a></div>
 </div>

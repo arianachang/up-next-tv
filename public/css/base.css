@@ -36,3 +36,18 @@ html {
   font-weight: 300;
   color: #3A3A3A;
 }
+
+#showBlock {
+  margin-bottom: 30px;
+}
+
+#body {
+  padding-bottom: 40px;
+}
+
+@media only screen and (min-width:768px) {
+  .same-height [class*="col-"] {
+    height: 320px;
+    overflow: auto;
+  }
+}

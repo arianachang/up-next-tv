@@ -1,7 +1,7 @@
 <!-- 
 <div id="login" class="col-sm-6 col-sm-offset-3">
 	<h1>Sign In</h1>
-	{{#if error}} <p id="error" class="bg-danger">Error: {{error}}</p> {{/if}}
+	{{#if error}} <p id="error" class="bg-danger"><strong>Error:</strong> {{error}}</p> {{/if}}
 	<form method="POST" action="">
 		<div class="form-group row">
 			<label for="username" class="col-sm-2 col-form-label">Username</label>
@@ -41,6 +41,8 @@
 					<input type="submit" class="btn btn-info btn-block" value="Login"/>
 				</div>
 			</form>
+			<small class="text-muted">
+Don't have an account? <a href="/user/signup" class="alert-link">Create one!</a></small>
 		</div>
 	</div>
 </div>
