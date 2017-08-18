@@ -20,7 +20,48 @@ app.get('/today', (req, res) => {
 });
 
 app.get('/onair', (req, res) => {
-	res.render('onair');
-})
+	res.render('onair', {csrfToken: req.csrfToken()});
+});
+
+app.post('/onair', (req, res) => {
+	const checked = req.body.tv;
+	console.log(checked);
+	
+	if(!req.user) {
+		const errMsg = 'You must be logged in to add shows to your list!'
+		res.render('signin', {error: errMsg, csrfToken: req.csrfToken()});
+	}
+	else {
+		//update user tv shows
+		if(typeof checked === Array) {
+			checked.forEach((movieId) => {
+				User.findOneAndUpdate(
+					{username: req.user.username},
+					{$push: {shows:movieId}}, (err, user) => {
+						if(err) {
+							console.log(err);
+						}
+						else {
+							const msg = 'Shows successfully added!';
+							res.redirect('/user/shows', {msg: msg});
+						}
+				});
+			});
+		}
+		else {
+				User.findOneAndUpdate(
+					{username: req.user.username},
+					{$push: {shows:checked}}, (err, user) => {
+						if(err) {
+							console.log(err);
+						}
+						else {
+							const msg = 'Show successfully added!';
+							res.redirect('/user/shows', {msg: msg});
+						}
+				});
+		}
+	}
+});
 
 module.exports = app;

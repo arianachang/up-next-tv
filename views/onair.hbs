@@ -1,76 +1,18 @@
 <script src="/javascripts/themoviedb.js"></script>
-<script>
-	//calculate today's date
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1;
-	var yyyy = today.getFullYear();
-	if(dd<10) { dd = '0'+dd; }
-	if(mm<10) { mm = '0'+mm; }
-	today = yyyy + '-' + mm + '-' + dd;
+<script src="/javascripts/tvOnAir.js"></script>
 
-	function main() {
-		var page = 1;
-		getMovieData(page);
-
-		document.querySelector('#loadMore').addEventListener('click', (event) => {
-			page++;
-			getMovieData(page);
-		});
-	}
-
-	function getMovieData(pg) {		
-		theMovieDb.tv.getOnTheAir({page:pg}, (shows) => {
-			var tvshows = JSON.parse(shows);
-			var showsArr = tvshows.results;
-			showsArr.forEach((show) => {
-				var id = show.id;
-				theMovieDb.tv.getById({id}, (data) => {
-					var s = JSON.parse(data);
-					var curSeason = s.seasons[s.seasons.length-1].season_number;
-					var numEps = s.seasons[s.seasons.length-1].episode_count;
-					theMovieDb.tvSeasons.getById({id:id, season_number:curSeason}, (season) => {
-						var szn = JSON.parse(season);
-						var nextEp;
-						for(var i=0; i<szn.episodes.length; i++) {
-							var date = szn.episodes[i]["air_date"].split('-');
-							if(Number(date[1]) >= Number(mm)) { //compare month
-								if(Number(date[2]) >= Number(dd)) { //compare day
-									nextEp = szn.episodes[i];
-									break;
-								}
-							}
-						}
-						var epData = '<strong>' + s.name + '</strong> ' + curSeason + 'x' + nextEp["episode_number"] + ' airs on ' + nextEp["air_date"];
-						var newDiv = document.createElement('div');
-						newDiv.id = s.name;
-						newDiv.innerHTML = epData;
-						newDiv.className = 'col-sm-4 col-md-3 text-center';
-						newDiv.id = 'showBlock';
-						var img = new Image();
-						img.onload = () => { newDiv.appendChild(img); }
-						img.src = 'https://image.tmdb.org/t/p/w185/' + s.poster_path;
-						img.className = 'img-responsive center-block';
-						document.querySelector('.row').appendChild(newDiv);
-					}, (error) => {console.log(error)});
-				}, (error) => {console.log(error)});
-			});
-		}, (error) => {console.log(error)});
-	}
-
-	document.addEventListener('DOMContentLoaded', main);
-
-	/*
-	$(window).scroll(function() {
-		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-			page++;
-			getMovieData(page);
-		}
-	});*/
-</script>
-
-<div>
 <h1>On Air</h1>
-<div class="row same-height"></div>
-<button id="loadMore" class="btn btn-info">Load More</button>
-</div>
+{{#if error}} <div id="error" class="alert bg-danger"><strong>Error:</strong> {{error}}</div> {{/if}}
+<form method="POST" action="" id="addToList">
+	<div class="row same-height"></div>
+	<button id="loadMore" class="btn btn-info">Load More</button>
+	<div class="form-group">
+		<input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}"/>
+		<input type="submit" class="btn btn-primary" name="submitBtn" value="Add Shows to My List"/>
+	</div>
+		<span class="input-group-btn" id="addShowsDiv">
+			<button type="button" class="btn btn-default" id="addShowsBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
+        </span>
+</form>

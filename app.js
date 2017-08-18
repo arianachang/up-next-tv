@@ -35,7 +35,7 @@ app.use(csrfProtection);
 const bcrypt = require('bcrypt');
 
 //flash middleware setup
-var flash = require('connect-flash');
+const flash = require('connect-flash');
 app.use(flash());
 
 //passport setup
@@ -141,13 +141,14 @@ const User = mongoose.model("User");
 //display user nav menu depending on if a user logged in
 app.use(function(req, res, next) {
 	res.locals.login = req.isAuthenticated();
+  res.locals._csrf = req.csrfToken();
 	next();
 });
 
-var index = require('./routes/index');
+const index = require('./routes/index');
 app.use('/', index);
 
-var userRoutes = require('./routes/user');
+const userRoutes = require('./routes/user');
 app.use('/user', userRoutes);
 
 app.get('*', (req, res) => {

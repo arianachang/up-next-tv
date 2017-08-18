@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 //define movie schema
 const Show = new mongoose.Schema({
-	name: {type: String, required: true},
+	name: {type: String},
 	id: {type: Number, required: true}
 });
 

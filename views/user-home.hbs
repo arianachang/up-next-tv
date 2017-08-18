@@ -10,8 +10,13 @@
 
 </script>
 
-
+{{#if msg}} <div class="bg-primary">{{msg}}</div> {{/if}}
 <h1>My Upcoming Shows</h1>
+{{#each user as |user|}}
+	{{#each user.shows as |show|}}
+		{{show}}
+	{{/each}}
+{{/each}}
 <div id="today" class="row"><h3>Shows Airing Today</h3></div>
 <div id="nextWeek" class="row"><h3>This Week</h3></div>
 <div id="upcoming" class="row"><h3>All Upcoming Shows</h3></div>
