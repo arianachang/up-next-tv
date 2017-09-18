@@ -2,6 +2,18 @@
 const express = require('express');
 const app = express();
 
+//csrf setup
+const csrf = require('csurf');
+const csrfProtection = csrf();
+app.use(csrfProtection);
+
+//mongoose setup
+const mongoose = require('mongoose');
+const ObjectId = require('mongoose').Schema.ObjectId;
+
+//retrieve constructor models
+const User = mongoose.model("User");
+
 //route handlers
 app.get('/', function(req, res) {
 	if(!req.user) {
@@ -26,40 +38,39 @@ app.get('/onair', (req, res) => {
 app.post('/onair', (req, res) => {
 	const checked = req.body.tv;
 	console.log(checked);
-	
+
 	if(!req.user) {
 		const errMsg = 'You must be logged in to add shows to your list!'
-		res.render('signin', {error: errMsg, csrfToken: req.csrfToken()});
+		res.render('onair', {error: errMsg, csrfToken: req.csrfToken()});
 	}
 	else {
-		//update user tv shows
-		if(typeof checked === Array) {
-			checked.forEach((movieId) => {
-				User.findOneAndUpdate(
-					{username: req.user.username},
-					{$push: {shows:movieId}}, (err, user) => {
-						if(err) {
-							console.log(err);
-						}
-						else {
-							const msg = 'Shows successfully added!';
-							res.redirect('/user/shows', {msg: msg});
-						}
-				});
+		if(typeof checked == 'string' || checked instanceof String) {
+			User.findOneAndUpdate(
+				{username: req.user.username},
+				{$addToSet: {shows:Number(checked)}}, (err, user) => {
+					if(err) {
+						console.log(err);
+					}
+					else {
+						const msg = 'Show successfully added!';
+						res.render('user-home', {user: user, msg: msg});
+					}
 			});
 		}
 		else {
-				User.findOneAndUpdate(
-					{username: req.user.username},
-					{$push: {shows:checked}}, (err, user) => {
-						if(err) {
-							console.log(err);
-						}
-						else {
-							const msg = 'Show successfully added!';
-							res.redirect('/user/shows', {msg: msg});
-						}
-				});
+			const ids = checked.map((id) => {return Number(id);});
+			console.log(ids);
+			User.findOneAndUpdate(
+				{username: req.user.username},
+				{$addToSet: {shows: {$each: ids}}}, (err, user) => {
+					if(err) {
+						console.log(err);
+					}
+					else {
+						const msg = 'Shows successfully added!';
+						res.render('user-home', {user: user, msg: msg});
+					}
+			});
 		}
 	}
 });

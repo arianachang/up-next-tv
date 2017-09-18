@@ -72,7 +72,7 @@ function getMovieData(pg) {
 						imgMask.classList.toggle('overlay');
 					};
 
-					document.querySelector('.row').appendChild(newDiv);
+					document.querySelector('#mainContent').appendChild(newDiv);
 				}, (error) => {console.log(error)});
 			}, (error) => {console.log(error)});
 		});

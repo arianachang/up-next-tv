@@ -13,7 +13,7 @@ const Show = new mongoose.Schema({
 const User = new mongoose.Schema({
 	username: {type: String, required: true, unique: true},
 	password: {type: String, required: true},
-	shows: [Show]
+	shows: [Number]
 });
 
 //register/define the models

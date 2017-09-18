@@ -12,20 +12,10 @@ app.use(csrfProtection);
 //passport setup
 const passport = require('passport');
 
-//mongoose setup
-const mongoose = require('mongoose');
-const ObjectId = require('mongoose').Schema.ObjectId;
-
-//retrieve constructor models
-const User = mongoose.model("User");
-
 //user routes
 app.get('/shows', isLoggedIn, (req, res) => {
 	console.log(req.user);
-	User.findOne({username: req.user.username}, (err, user) => {
-		console.log(user.shows);
-		//res.render('user-home', {user:req.user});
-	});
+	res.render('user-home', {user:req.user});
 });
 
 app.get('/profile', isLoggedIn, (req, res) => {
